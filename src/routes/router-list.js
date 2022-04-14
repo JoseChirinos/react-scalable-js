@@ -1,39 +1,41 @@
-import React from 'react'
-import { Route, Switch, Redirect } from 'react-router-dom'
-import Loadable from 'react-loadable'
-import Loading from 'components/Atoms/Loading'
-import NoMatch from 'components/Atoms/NotMatch'
-import Login from 'components/Organisms/Login'
+import React, { Fragment } from 'react'
+import { Route, Routes, Navigate } from 'react-router-dom'
+// import Loading from 'components/Atoms/Loading'
+// import NoMatch from 'components/Atoms/NotMatch'
+// import Login from 'components/Organisms/Login'
 
-const Home = Loadable({
-  loader: () => import('../pages/home'),
-  loading: Loading,
-})
+// const Home = Loadable({
+//   loader: () => import('../pages/home'),
+//   loading: Loading,
+// })
 
-const Generate = Loadable({
-  loader: () => import('../pages/generate'),
-  loading: Loading,
-})
+// const Generate = Loadable({
+//   loader: () => import('../pages/generate'),
+//   loading: Loading,
+// })
 
-const Boletines = Loadable({
-  loader: () => import('../pages/boletines'),
-  loading: Loading,
-})
+// const Boletines = Loadable({
+//   loader: () => import('../pages/boletines'),
+//   loading: Loading,
+// })
 
-const Notas = Loadable({
-  loader: () => import('../pages/notas'),
-  loading: Loading,
-})
+// const Notas = Loadable({
+//   loader: () => import('../pages/notas'),
+//   loading: Loading,
+// })
+
+const Login = () => <div>Login</div>
+const Home = () => <div>Home</div>
 
 const AuthControl = (props) => {
   const { logged, component: Component } = props
-  return <>{logged ? <Component {...props} /> : <Redirect to="/login" />}</>
+  return <Fragment>{logged ? <Component {...props} /> : <Redirect to="/login" />}</Fragment>
 }
 
 const RouterList = (props) => {
-  const { handleSignIn, handleChangeUserForm, userForm, logged } = props
+  const logged = false;
   return (
-    <Switch>
+    <Routes>
       {/* HOME route */}
       <Route
         exact
@@ -43,41 +45,29 @@ const RouterList = (props) => {
         )}
       />
 
-      {/* GENERAR route */}
-      <Route
-        path="/generar"
-        component={(props) => (
-          <AuthControl logged={logged} component={Generate} {...props} />
-        )}
-      />
-
       {/* NOTAS route */}
-      <Route
+      {/* <Route
         path="/notas"
         component={(props) => (
           <AuthControl logged={logged} component={Notas} {...props} />
         )}
-      />
+      /> */}
 
       {/* BOLETINES route public*/}
-      <Route path="/boletines/:estudiante" component={Boletines} />
+      {/* <Route path="/boletines/:estudiante" component={Boletines} /> */}
 
       {/* LOGIN route public*/}
       <Route exact path="/login">
         {logged ? (
-          <Redirect to="/" />
+          <Navigate to="/" replace />
         ) : (
-          <Login
-            signIn={handleSignIn}
-            handleChangeUserForm={handleChangeUserForm}
-            userForm={userForm}
-          />
+          <Login />
         )}
       </Route>
 
       {/* 404 route*/}
       <Route component={NoMatch} />
-    </Switch>
+    </Routes>
   )
 }
 
