@@ -1,48 +1,40 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import { Route, Routes, Navigate } from 'react-router-dom'
-// import Loading from 'components/Atoms/Loading'
-// import NoMatch from 'components/Atoms/NotMatch'
-// import Login from 'components/Organisms/Login'
-
-// const Home = Loadable({
-//   loader: () => import('../pages/home'),
-//   loading: Loading,
-// })
-
-// const Generate = Loadable({
-//   loader: () => import('../pages/generate'),
-//   loading: Loading,
-// })
-
-// const Boletines = Loadable({
-//   loader: () => import('../pages/boletines'),
-//   loading: Loading,
-// })
-
-// const Notas = Loadable({
-//   loader: () => import('../pages/notas'),
-//   loading: Loading,
-// })
 
 const Login = () => <div>Login</div>
 const Home = () => <div>Home</div>
+const NoMatch = () => <div>404</div>
 
 const AuthControl = (props) => {
-  const { logged, component: Component } = props
-  return <Fragment>{logged ? <Component {...props} /> : <Redirect to="/login" />}</Fragment>
+  const { logged, element: Component } = props
+  return <>{logged ? <Component /> : <Navigate to="/login" replace />}</>
 }
 
-const RouterList = (props) => {
-  const logged = false;
+AuthControl.propTypes = {
+  logged: PropTypes.bool.isRequired,
+  element: PropTypes.elementType.isRequired,
+}
+
+const LoginControl = (props) => {
+  const { logged } = props
+  return <>{logged ? <Navigate to="/" replace /> : <Login />}</>
+}
+
+LoginControl.propTypes = {
+  logged: PropTypes.bool.isRequired,
+}
+
+const RouterList = () => {
+  const { logged } = useSelector((state) => state.userAuth)
   return (
     <Routes>
       {/* HOME route */}
       <Route
         exact
         path="/"
-        component={(props) => (
-          <AuthControl logged={logged} component={Home} {...props} />
-        )}
+        element={<AuthControl logged={logged} element={Home} />}
       />
 
       {/* NOTAS route */}
@@ -53,19 +45,13 @@ const RouterList = (props) => {
         )}
       /> */}
 
-      {/* BOLETINES route public*/}
+      {/* BOLETINES route public */}
       {/* <Route path="/boletines/:estudiante" component={Boletines} /> */}
 
-      {/* LOGIN route public*/}
-      <Route exact path="/login">
-        {logged ? (
-          <Navigate to="/" replace />
-        ) : (
-          <Login />
-        )}
-      </Route>
+      {/* LOGIN route public */}
+      <Route exact path="/login" element={<LoginControl logged={logged} />} />
 
-      {/* 404 route*/}
+      {/* 404 route */}
       <Route component={NoMatch} />
     </Routes>
   )

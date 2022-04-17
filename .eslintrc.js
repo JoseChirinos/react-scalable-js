@@ -1,4 +1,11 @@
 module.exports = {
+  parser: "@babel/eslint-parser",
+  parserOptions: {
+    babelOptions: {
+      presets: ["@babel/preset-react"],
+    },
+    requireConfigFile: false,
+  },
   extends: ["airbnb", "prettier"],
   plugins: ["prettier", "react-hooks"],
   env: {
@@ -23,6 +30,9 @@ module.exports = {
     "react/state-in-constructor": "off",
     "react/static-property-placement": "off",
     "react/self-closing-comp": "off",
+    "react/function-component-definition": "off",
+    "react/jsx-no-useless-fragment": "off",
+    "react/no-unstable-nested-components": "off",
     "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx"] }],
     "class-methods-use-this": "off",
     "no-alert": ["error"],
@@ -39,6 +49,7 @@ module.exports = {
     "react/prop-types": [2, { ignore: ["children"] }],
     "import/no-cycle": 0,
     "import/no-unresolved": "off",
+    "import/extensions": ['error', 'never', {ignorePackages: true} ],
     "no-use-before-define": ["error", { functions: false, classes: true }],
     "import/no-extraneous-dependencies": "off",
     "max-len": [

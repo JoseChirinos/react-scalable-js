@@ -1,26 +1,32 @@
-import React, { Fragment } from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
-import RouterList from './router-list'
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
+import RouterList from '@/routes/router-list'
+import { setUserAuth } from '@/redux/actionCreators'
 
-/* Data */
-const USER = import.meta.env.VITE_USER
-const PASS = import.meta.env.VITE_PASSWORD
+const USER = import.meta.env.VITE_USER // eslint-disable-line
+const PASS = import.meta.env.VITE_PASSWORD // eslint-disable-line
 
-const RouterApp = (props) => {
-  console.log(USER, PASS)
+const RouterApp = () => {
+  console.log(USER, PASS) // eslint-disable-line
+  const userAuth = useSelector((state) => state.userAuth)
+  const dispatch = useDispatch()
+
+  const handleToggleClose = () => {
+    dispatch(setUserAuth({
+      logged: !userAuth.logged
+    }))
+  }
+
   return (
-    <Fragment>
-      <h1>Hello</h1>
-    </Fragment>
+    <>
+      <button type="button" onClick={handleToggleClose}>
+        Test Redux
+      </button>
+      <BrowserRouter>
+        <RouterList />
+      </BrowserRouter>
+    </>
   )
-  // return (
-  //   <>
-  //     <Router>
-  //       <Main>
-  //         <RouterList />
-  //       </Main>
-  //     </Router>
-  //   </>
-  // )
 }
 export default RouterApp

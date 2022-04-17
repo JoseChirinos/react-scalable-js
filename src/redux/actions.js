@@ -1,1 +1,3 @@
-export const SET_MENU_TOGGLE = 'SET_MENU_TOGGLE'
+export const SET_USER_AUTH = 'SET_USER_AUTH'
+
+export default () => {}

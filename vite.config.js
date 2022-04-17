@@ -8,6 +8,9 @@ export default ({ mode }) => {
   process.env = {...process.env, ...loadEnv(mode, process.cwd())};
   return defineConfig({
     plugins: [react()],
+    server: {
+      open: true,
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),

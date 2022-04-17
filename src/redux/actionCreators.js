@@ -1,6 +1,8 @@
-import { SET_MENU_TOGGLE } from './actions'
+import { SET_USER_AUTH } from './actions'
 
-export const setMenuToggle = (toggle = false) => ({
-  type: SET_MENU_TOGGLE,
-  toggle,
+export const setUserAuth = (user) => ({
+  type: SET_USER_AUTH,
+  user,
 })
+
+export default () => {}
