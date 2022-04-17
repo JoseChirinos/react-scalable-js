@@ -5,7 +5,7 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
-  process.env = {...process.env, ...loadEnv(mode, process.cwd())};
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
   return defineConfig({
     plugins: [react()],
     server: {
@@ -17,7 +17,7 @@ export default ({ mode }) => {
       },
     },
     esbuild: {
-      loader: "jsx",
+      loader: 'jsx',
       include: /src\/.*\.jsx?$/,
       exclude: [],
     },
@@ -25,12 +25,16 @@ export default ({ mode }) => {
       esbuildOptions: {
         plugins: [
           {
-            name: "load-js-files-as-jsx",
+            name: 'load-js-files-as-jsx',
             setup(build) {
-              build.onLoad({ filter: /src\\.*\.js$/ }, async (args) => ({ /* in mac change from \\ to \/ */
-                loader: "jsx",
-                contents: await fs.readFile(args.path, "utf8"),
-              }));
+              const isWin = process.platform === 'win32'
+              build.onLoad(
+                { filter: isWin ? /src\\.*\.js$/ : /src\/.*\.js$/ },
+                async (args) => ({
+                  loader: 'jsx',
+                  contents: await fs.readFile(args.path, 'utf8'),
+                })
+              )
             },
           },
         ],
