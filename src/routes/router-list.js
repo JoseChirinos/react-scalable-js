@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { Route, Routes, Navigate } from 'react-router-dom'
 
-const Login = () => <div>Login</div>
-const Home = () => <div>Home</div>
+/* Import Component */
+import Login from '@/pages/login'
+
+const Home = lazy(() => import('../pages/home'))
+
 const NoMatch = () => <div>404</div>
 
 const AuthControl = (props) => {
@@ -34,25 +37,23 @@ const RouterList = () => {
       <Route
         exact
         path="/"
-        element={<AuthControl logged={logged} element={Home} />}
+        element={
+          <AuthControl
+            logged={logged}
+            element={(props) => (
+              <Suspense fallback={<div>Loading...</div>}>
+                <Home {...props} />
+              </Suspense>
+            )}
+          />
+        }
       />
-
-      {/* NOTAS route */}
-      {/* <Route
-        path="/notas"
-        component={(props) => (
-          <AuthControl logged={logged} component={Notas} {...props} />
-        )}
-      /> */}
-
-      {/* BOLETINES route public */}
-      {/* <Route path="/boletines/:estudiante" component={Boletines} /> */}
 
       {/* LOGIN route public */}
       <Route exact path="/login" element={<LoginControl logged={logged} />} />
 
       {/* 404 route */}
-      <Route component={NoMatch} />
+      <Route path="*" element={<NoMatch />} />
     </Routes>
   )
 }

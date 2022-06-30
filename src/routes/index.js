@@ -13,9 +13,11 @@ const RouterApp = () => {
   const dispatch = useDispatch()
 
   const handleToggleClose = () => {
-    dispatch(setUserAuth({
-      logged: !userAuth.logged
-    }))
+    dispatch(
+      setUserAuth({
+        logged: !userAuth.logged,
+      })
+    )
   }
 
   return (
