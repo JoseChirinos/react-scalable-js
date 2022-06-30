@@ -6,8 +6,10 @@ import { Route, Routes, Navigate } from 'react-router-dom'
 /* Import Component */
 import Login from '@/pages/login'
 
+/* Import Component Lazy Load (Code Splitting) */
 const Home = lazy(() => import('../pages/home'))
 
+/* Component Fast */
 const NoMatch = () => <div>404</div>
 
 const AuthControl = (props) => {
